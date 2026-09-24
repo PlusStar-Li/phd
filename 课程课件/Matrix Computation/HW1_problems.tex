@@ -1,0 +1,263 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=1in]{geometry}
+\usepackage{xcolor,enumitem,hyperref,listings,booktabs}
+
+\definecolor{navy}{RGB}{25,55,95}
+\definecolor{lightblue}{RGB}{235,243,252}
+\hypersetup{colorlinks=true,linkcolor=navy,urlcolor=blue!60!black}
+\setlist{itemsep=3pt,topsep=4pt}
+\setlength{\parindent}{0pt}
+\setlength{\emergencystretch}{3em}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\T}{^{\mathsf T}}
+\newcommand{\Hh}{^{\mathsf H}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\Span}{\operatorname{span}}
+\newcommand{\Null}{\operatorname{Null}}
+\newcommand{\im}{\operatorname{im}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\N}{\mathcal{N}}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{remark}{Remark}
+
+\lstset{language=Python,basicstyle=\ttfamily\small,keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{green!45!black}\itshape,stringstyle=\color{red!65!black},
+  showstringspaces=false,numbers=left,numberstyle=\tiny\color{gray},
+  breaklines=true,frame=single,framerule=0.5pt,framesep=4pt,xleftmargin=2em}
+
+\title{\color{navy}\bfseries SLAI MF2601: Homework I}
+\author{Name: \underline{\hspace{6cm}} \quad Student ID: \underline{\hspace{3cm}}}
+\date{Due: September 30, 2026}
+
+\begin{document}
+\maketitle
+
+
+\textbf{General instructions.} Unless a problem says otherwise, all matrices are real;
+use MATLAB or Python for numerical work. Use \LaTeX{} to typeset the homework and
+compile to PDF; you may modify the source code provided. Submit a single zip file
+containing the PDF (with the theory and numerical-experiment results) together with
+a MATLAB or Python code file, to the TA's email with subject line \texttt{NLA HW1}.
+
+\section*{[Do not submit this part] Problem 0: Preliminary questions}
+
+This is a study aid only. Do not submit answers to these questions.
+You may use any resources, including AI tools, to answer these questions to
+ensure a \textbf{basic} understanding of linear algebra.
+
+\begin{quote}
+What is the definition of \textbf{linear space} or vector space?\par
+What is the definition of a \textbf{basis} of a linear space?\par
+What is the definition of the \textbf{dimension} of a linear space?\par
+What is the definition of \textbf{linear mapping}?\par
+What is the definition of the \textbf{image and kernel} of a linear mapping?\par
+What is the \textbf{relationship between matrix and linear mapping} under a fixed basis? \par
+What happens to the matrix of a linear mapping if we change the basis?\par
+What happens to their matrices if two linear mappings are composed?\par
+What is the \textbf{rank} and \textbf{nullity} of a matrix?\par
+Kernel -- nullity. Image -- rank. What are their relationships?\par
+What is the \textbf{rank-nullity} theorem?\par
+\par
+\medskip
+What is the definition of a linear \textbf{subspace} and the summation and intersection
+between two subspaces?\par
+How do you prove the dimension formula for the sum of two subspaces?
+\[
+\dim(S+T)=\dim S+\dim T-\dim(S\cap T)
+\]
+What is the definition of inner product?\par
+What is the definition of orthogonal vectors?
+\end{quote}
+
+
+\section*{Problem 1}
+\textbf{Page 16, Problem 2.6.} If $u$ and $v$ are $m$-vectors, the matrix $A = I + uv\Hh$ is known as a
+\emph{rank-one perturbation of the identity}. Show that if $A$ is nonsingular, then its inverse
+has the form $A^{-1} = I + \alpha uv\Hh$ for some scalar $\alpha$, and give an expression for
+$\alpha$. For what $u$ and $v$ is $A$ singular? If it is singular, what is $\mathrm{null}(A)$?
+
+\section*{Problem 2}
+\textbf{Page 24, Problem 3.6.} Let $\|\cdot\|$ denote any norm on $\mathbb{C}^m$. The corresponding
+\emph{dual norm} $\|\cdot\|'$ is defined by the formula
+\[
+\|x\|' = \sup_{\|y\| = 1} |y\Hh x|.
+\]
+\begin{enumerate}
+\item[(a)] Prove that $\|\cdot\|'$ is a norm.
+\item[(b)] Let $x, y \in \mathbb{C}^m$ with $\|x\| = \|y\| = 1$ be given. Show that there exists a
+rank-one matrix $B = yz\Hh$ such that $Bx = y$ and $\|B\| = 1$, where $\|B\|$ is the matrix
+norm of $B$ induced by the vector norm $\|\cdot\|$. You may use the following lemma,
+without proof: given $x \in \mathbb{C}^m$, there exists a nonzero $z \in \mathbb{C}^m$ such
+that $|z\Hh x| = \|z\|' \|x\|$.
+\end{enumerate}
+
+\section*{Problem 3}
+\textbf{Page 31, Problem 4.4.} Two matrices $A, B \in \mathbb{C}^{m \times m}$ are \emph{unitarily
+equivalent} if $A = QBQ\Hh$ for some unitary $Q \in \mathbb{C}^{m \times m}$. Is it true or
+false that $A$ and $B$ are unitarily equivalent if and only if they have the same multiset
+of singular values, counted with multiplicity? \textit{If yes, please give the proof; otherwise
+provide an example.}
+
+\section*{Problem 4}
+\textbf{Page 37, Problem 5.4.} Suppose $A \in \mathbb{C}^{m \times m}$ has an SVD $A = U\Sigma V\Hh$.
+Find an eigenvalue decomposition (5.1) of the $2m \times 2m$ Hermitian matrix
+\[
+\begin{bmatrix} 0 & A\Hh \\ A & 0 \end{bmatrix}.
+\]
+
+
+
+\section*{Problem 5. SVD application: orthogonal Procrustes}
+
+Suppose the rows of $A,B\in\R^{m\times n}$ are corresponding observations in two coordinate
+systems. The orthogonal Procrustes problem is
+\[
+  \min_{Q\T Q=I}\norm{AQ-B}_F. \tag{A.1}
+\]
+
+\begin{enumerate}[label=\textbf{A\arabic*.}]
+\item Use the identity $\|M\|_F^2=\tr(M\T M)$ to expand the squared Frobenius norm
+in (A.1), discard the $Q$-independent terms, and show that the problem is equivalent to
+\[
+   \max_{Q\T Q=I}\operatorname{tr}(Q\T A\T B). \tag{A.2}
+\]
+\item Let $A\T B=U\Sigma V\T$ be a full SVD. Prove that
+\[
+Q_\star=UV\T \tag{A.3}
+\]
+is a maximizer of (A.2). Your proof should introduce an orthogonal matrix $W$ and justify
+the trace inequality used to bound $\operatorname{tr}(\Sigma W)$.
+\item Make the equality case explicit. If $r=\rank(A\T B)$, show that all maximizers have the
+form
+\[
+ Q=U\begin{bmatrix}I_r&0\\0&W_0\end{bmatrix}V\T, \tag{A.4}
+\]
+where $O(n-r)$ denotes the set of all $(n-r)\times(n-r)$ orthogonal matrices, i.e.,
+$W_0\in\R^{(n-r)\times(n-r)}$ with $W_0\T W_0=I$. When $r=n$ the block $W_0$ is absent
+($0\times 0$) and the formula reduces to $Q=UV\T$. Conclude precisely when the minimizer
+is unique.
+\item \textbf{Numerical experiment.} Choose $m=50$, $n=5$ (any $m\ge n$ works).
+Generate a random $A\in\R^{m\times n}$ with i.i.d.\ $\mathcal{N}(0,1)$ entries,
+an orthogonal $Q_0\in\R^{n\times n}$ (e.g., the $Q$ factor of the QR factorization
+of a random Gaussian matrix), and a noise matrix $E\in\R^{m\times n}$ with i.i.d.\
+$\mathcal{N}(0,1)$ entries. For each $\sigma\in\{0,10^{-3},10^{-2},10^{-1}\}$:
+\begin{enumerate}[label=(\alph*)]
+\item Set $B=AQ_0+\sigma E$.
+\item Compute $Q_\star = UV\T$ from an SVD $A\T B = U\Sigma V\T$.
+\item Report three Frobenius-norm residuals:
+\[
+\epsilon_{\mathrm{orth}}:=\norm{Q_\star\T Q_\star-I}_F,\qquad
+\epsilon_{\mathrm{data}}:=\norm{AQ_\star-B}_F,\qquad
+\epsilon_{\mathrm{align}}:=\norm{Q_\star-Q_0}_F.
+\]
+\end{enumerate}
+\textbf{Note.} The $\sigma=0$ case is the noise-free sanity check $B=AQ_0$; there
+$Q_\star$ should recover $Q_0$ to machine precision and both
+$\epsilon_{\rm data},\epsilon_{\rm align}$ should be $\approx 0$.
+\end{enumerate}
+
+\section*{Problem 6. SVD application: canonical correlation analysis}
+
+\textbf{Motivation.} Suppose $m$ samples carry measurements from two
+blocks of variables: $X\in\R^{m\times p}$ (say, $p$ psychological test
+scores) and $Y\in\R^{m\times q}$ (say, $q$ physical measurements), with
+rows = samples, columns = variables (so the $j$-th column $X_j\in\R^m$
+holds the $m$ observations of variable $j$), both blocks
+\emph{column-centered} (i.e., $\frac{1}{m}\sum_{i=1}^m X_{ij}=0$ for
+every column $j$). The ordinary Pearson correlation $\rho(X_j, Y_k)$
+measures the linear association of a \emph{single} pair of variables,
+but in practice variables within each block are correlated with one
+another, and any block-level relationship is often split across many
+variables rather than concentrated in one pair. \textbf{Canonical
+correlation analysis (CCA)} asks for the strongest such
+\emph{block-level} linear relationship: find linear combinations
+$Xa, Yb$ (with $a\in\R^p$, $b\in\R^q$) that are maximally correlated.
+Up to $\min(p, q)$ such pairs $(a_i, b_i)$ are produced, with
+successive pairs constrained to be orthogonal to the previous ones so
+that each new pair captures fresh block-level structure. The numbers
+$\rho_i=\operatorname{Corr}(X a_i, Y b_i)$ are the \emph{canonical
+correlations}, the vectors $a_i, b_i$ are \emph{canonical directions},
+and the projections $X a_i, Y b_i$ are \emph{canonical variates}.
+
+The Pearson correlation of two $m$-vectors $u, v$ (zero-mean, as
+guaranteed by column-centering) is
+$\operatorname{Corr}(u, v) = u\T v / (\norm{u}_2 \norm{v}_2)$, so the
+single-pair CCA problem is
+\[
+ \max_{a\in\R^p,\, b\in\R^q}\, \operatorname{Corr}(Xa, Yb)
+ \;=\; \max_{a, b}\, \frac{a\T (X\T Y) b}{\norm{Xa}_2\, \norm{Yb}_2}.
+ \tag{B.1}
+\]
+Each remaining pair $(a_i, b_i)$, $i\ge 2$, maximizes (B.1) subject
+to the additional constraints
+$\operatorname{Corr}(X a_i, X a_j) = \operatorname{Corr}(Y b_i, Y b_j) = 0$
+for every $j<i$.
+
+Define the sample covariance matrices
+\[
+S_{xx}=\tfrac{1}{m-1}X\T X,\qquad
+S_{yy}=\tfrac{1}{m-1}Y\T Y,\qquad
+S_{xy}=\tfrac{1}{m-1}X\T Y.
+\]
+We assume throughout that $S_{xx}$ and $S_{yy}$ are positive definite,
+and let $S_{xx}^{1/2}$ and $S_{yy}^{1/2}$ denote their symmetric
+positive-definite square roots. Whitening by these square roots turns
+the problem into one SVD.
+
+\begin{enumerate}[label=\textbf{B\arabic*.}]
+\item Derive a clean algebraic formulation of the single-pair problem
+      (B.1) using $S_{xx}$, $S_{yy}$, $S_{xy}$.
+\item Solve the single-pair formulation from B1. Give closed-form 
+      expressions for the first canonical pair $(a_1, b_1)$ and the
+      first canonical correlation $\rho_1$.
+\item Generalize to all $k = \min(p, q)$ pairs. Give closed-form
+      expressions for every $(a_i, b_i)$ and every $\rho_i$, and verify
+      $a_i\T S_{xx} a_j = \delta_{ij}$ and
+      $b_i\T S_{yy} b_j = \delta_{ij}$.
+\end{enumerate}
+
+\section*{Problem 7. Lecture 04 supplement}
+\textit{See also: the Lecture~04 supplement at
+\href{http://47.107.139.91:2601/files/lecture/lec04.pdf}{\texttt{http://47.107.139.91:2601/files/lecture/lec04.pdf}}.}
+
+\subsection*{C.1 Max--min characterization (self-contained lemma)}
+Let $A\in\R^{m\times n}$ with $m\ge n$ and singular values
+$\sigma_1(A)\ge\cdots\ge\sigma_n(A)\ge0$. For $1\le i\le n$, define
+\[
+ \phi_i(A)=\max_{\substack{S\subseteq\R^n\\\dim S=i}}
+       \;\min_{\substack{x\in S\\\norm{x}_2=1}}\norm{Ax}_2.
+\]
+\textbf{Task C1.} Prove that $\phi_i(A)=\sigma_i(A)$.
+
+\subsection*{C.2 Perturbation bound for singular values}
+\begin{theorem}[Weyl-type singular-value bound]
+For $A,B\in\R^{m\times n}$, $m\ge n$,
+\[
+ \max_{1\le i\le n}\left|\sigma_i(A)-\sigma_i(B)\right|\le\norm{A-B}_2. \tag{C.1}
+\]
+\end{theorem}
+
+\textbf{Task C2.} Prove Theorem 1. You may use the max--min characterization
+$\phi_i(A)=\sigma_i(A)$ from Part C.1. As a sanity check, verify (C.1)
+numerically on at least five random matrix pairs and report the largest
+observed ratio $\max_i|\sigma_i(A)-\sigma_i(B)| / \norm{A-B}_2$.
+
+\subsection*{C.3 Best rank-$k$ approximation and distance to rank deficiency}
+Let $A\in\R^{n\times n}$ be nonsingular with SVD
+$A=U\operatorname{diag}(\sigma_1,\ldots,\sigma_n)V\T$, where
+$\sigma_1\ge\cdots\ge\sigma_n>0$.
+
+\textbf{Task C3.} Fix $0\le k<n$. Determine the minimum-norm perturbation
+that makes $A$ rank-deficient, taken over all $E\in\R^{n\times n}$:
+\[
+ \min_{\substack{\rank(A+E)\le k\\ E\in\R^{n\times n}}}\norm{E}_2. \tag{C.2}
+\]
+
+\end{document}
